@@ -1,0 +1,767 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Task Manager Documentation",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/api",
+            "description": "Test API Server"
+        }
+    ],
+    "paths": {
+        "/employees": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Get list of employees",
+                "description": "Returns list of employees",
+                "operationId": "getEmployeesList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeeResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Store new employee",
+                "description": "Returns employee data",
+                "operationId": "storeEmployee",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreEmployeeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/employees/{id}": {
+            "get": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Get employee information",
+                "description": "Returns employee data",
+                "operationId": "getEmployeeById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Employee id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Update existing employee",
+                "description": "Returns updated employee data",
+                "operationId": "updateEmployee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Employee id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateEmployeeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Delete existing employee",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteEmployee",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Employee id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/tasks": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get list of tasks",
+                "description": "Returns list of tasks",
+                "operationId": "getTasksList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TaskResource"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Store new task",
+                "description": "Returns task data",
+                "operationId": "storeTask",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/StoreTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
+                    }
+                }
+            }
+        },
+        "/tasks/{id}": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get task information",
+                "description": "Returns task data",
+                "operationId": "getTaskById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Update existing task",
+                "description": "Returns updated task data",
+                "operationId": "updateTask",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Delete existing task",
+                "description": "Deletes a record and returns no content",
+                "operationId": "deleteTask",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Task id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/tasks/{task}/assign": {
+            "post": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Assign task to employee",
+                "operationId": "assignTask",
+                "parameters": [
+                    {
+                        "name": "task",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssignTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/tasks/{task}/unassign": {
+            "delete": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Unassign task from employee",
+                "operationId": "unassignTask",
+                "parameters": [
+                    {
+                        "name": "task",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnassignTaskRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AssignTaskRequest": {
+                "title": "AssignTaskRequest",
+                "description": "AssignTaskRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "employee_id": {
+                        "title": "Employee ID",
+                        "description": "Employee ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "StoreEmployeeRequest": {
+                "title": "StoreEmployeeRequest",
+                "description": "StoreEmployeeRequest",
+                "required": [
+                    "name",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Имя",
+                        "description": "Имя сотрудника",
+                        "type": "string",
+                        "example": "New Employee"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email сотрудника",
+                        "type": "string",
+                        "format": "email",
+                        "example": "damien@example.net"
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус сотрудника",
+                        "type": "string",
+                        "example": "Работает"
+                    }
+                },
+                "type": "object"
+            },
+            "StoreTaskRequest": {
+                "title": "StoreTaskRequest",
+                "description": "StoreTaskRequest",
+                "required": [
+                    "name",
+                    "title",
+                    "description"
+                ],
+                "properties": {
+                    "title": {
+                        "title": "Заголовок",
+                        "description": "Заголовок задачи",
+                        "type": "string",
+                        "example": "New Task"
+                    },
+                    "description": {
+                        "title": "Описание",
+                        "description": "Описание задачи",
+                        "type": "string",
+                        "example": "Test Description"
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус задачи",
+                        "type": "string",
+                        "example": "К выполнению"
+                    }
+                },
+                "type": "object"
+            },
+            "UnassignTaskRequest": {
+                "title": "AssignTaskRequest",
+                "description": "AssignTaskRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "employee_id": {
+                        "title": "Employee ID",
+                        "description": "Employee ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateEmployeeRequest": {
+                "title": "UpdateEmployeeRequest",
+                "description": "UpdateEmployeeRequest",
+                "required": [
+                    "name",
+                    "status"
+                ],
+                "properties": {
+                    "name": {
+                        "title": "Имя",
+                        "description": "Имя сотрудника",
+                        "type": "string",
+                        "example": "Updated Employee"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email сотрудника",
+                        "type": "string",
+                        "format": "email",
+                        "example": "damien@example2.net"
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус сотрудника",
+                        "type": "string",
+                        "example": "В отпуске"
+                    }
+                },
+                "type": "object"
+            },
+            "UpdateTaskRequest": {
+                "title": "UpdateTaskRequest",
+                "description": "UpdateTaskRequest",
+                "required": [
+                    "name",
+                    "title",
+                    "description"
+                ],
+                "properties": {
+                    "title": {
+                        "title": "Заголовок",
+                        "description": "Заголовок задачи",
+                        "type": "string",
+                        "example": "New Task"
+                    },
+                    "description": {
+                        "title": "Описание",
+                        "description": "Описание задачи",
+                        "type": "string",
+                        "example": "Test Description"
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус задачи",
+                        "type": "string",
+                        "example": "Выполнена"
+                    }
+                },
+                "type": "object"
+            },
+            "EmployeeResource": {
+                "title": "EmployeeResource",
+                "description": "Employee resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Employee"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "EmployeeResource"
+                }
+            },
+            "TaskResource": {
+                "title": "TaskResource",
+                "description": "Task resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Task"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "TaskResource"
+                }
+            },
+            "Employee": {
+                "title": "Сотрудник",
+                "description": "Employee model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Имя",
+                        "description": "Имя сотрудника",
+                        "type": "string",
+                        "example": "Cayla Kling"
+                    },
+                    "email": {
+                        "title": "Email",
+                        "description": "Email сотрудника",
+                        "type": "string",
+                        "format": "email",
+                        "example": "kiehn.damien@example.net"
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус сотрудника",
+                        "type": "string",
+                        "example": "Работает"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Employee"
+                }
+            },
+            "Task": {
+                "title": "Задача",
+                "description": "Task model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "title": {
+                        "title": "Заголовок",
+                        "description": "Заголовок задачи",
+                        "type": "string",
+                        "example": "Alteration Tailor"
+                    },
+                    "description": {
+                        "title": "Описание",
+                        "description": "Описание задачи",
+                        "type": "string",
+                        "example": "Rerum ipsum incidunt est minima nesciunt. Sit ut in sunt harum ducimus. Amet sed dolorum quia ut veritatis. Ad in nostrum alias animi rem nemo. Reiciendis velit provident vel voluptas et."
+                    },
+                    "status": {
+                        "title": "Статус",
+                        "description": "Статус задачи",
+                        "type": "string",
+                        "example": "В работе"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Task"
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Employees",
+            "description": "Employees"
+        },
+        {
+            "name": "Tasks",
+            "description": "Tasks"
+        }
+    ]
+}
