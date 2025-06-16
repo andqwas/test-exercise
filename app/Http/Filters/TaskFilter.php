@@ -13,6 +13,8 @@ class TaskFilter extends AbstractFilter
     public const STATUS = 'status';
     public const CREATED_AT_FROM = 'created_at_from';
     public const CREATED_AT_TO = 'created_at_to';
+    public const SORT_BY = 'sort_by';
+    public const ORDER = 'order';
 
     protected function getCallbacks(): array
     {
@@ -22,6 +24,7 @@ class TaskFilter extends AbstractFilter
             self::STATUS => [$this, 'status'],
             self::CREATED_AT_FROM => [$this, 'createdAtFrom'],
             self::CREATED_AT_TO => [$this, 'createdAtTo'],
+            self::SORT_BY => [$this, 'sortBy'],
         ];
     }
 
@@ -48,5 +51,10 @@ class TaskFilter extends AbstractFilter
     public function createdAtTo(Builder $builder, $value): void
     {
         $builder->whereDate('created_at', '<=', $value);
+    }
+
+    public function sortBy(Builder $builder, $value): void
+    {
+        $builder->orderBy($value, $this->getQueryParam(self::ORDER) ?? 'asc');
     }
 }

@@ -26,7 +26,9 @@ class FilterRequest extends FormRequest
             'description' => '',
             'status' => '',
             'created_at_from' => '',
-            'created_at_to' => ''
+            'created_at_to' => '',
+            'sort_by' => '',
+            'order' => ''
         ];
     }
 }

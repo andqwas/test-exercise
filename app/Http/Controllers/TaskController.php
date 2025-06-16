@@ -65,6 +65,26 @@ class TaskController extends Controller
      *             example="2025-06-21"
      *         )
      *     ),
+     *     @OA\Parameter(
+     *         name="sort_by",
+     *         in="query",
+     *         description="Sort tasks by",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"title", "description", "status", "created_at"},
+     *             example="title"
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         name="order",
+     *         in="query",
+     *         description="Order sort",
+     *         @OA\Schema(
+     *             type="string",
+     *             enum={"asc", "desc"},
+     *             example="asc"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
