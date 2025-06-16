@@ -19,6 +19,7 @@ Route::prefix('employees')->group(function () {
 });
 
 Route::prefix('tasks')->group(function () {
+    Route::get('/grouped-by-status', [TaskController::class, 'groupedByStatus'])->name('grouped-by-status');
     Route::get('/', [TaskController::class, 'index'])->name('index');
     Route::post('/', [TaskController::class, 'store'])->name('store')->middleware('throttle:2,1');
     Route::get('/{task}', [TaskController::class, 'show'])->name('show');
