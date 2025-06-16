@@ -3,27 +3,28 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+
 /**
  * @OA\Schema(
- *      title="UnassignTaskRequest",
- *      description="UnassignTaskRequest",
+ *      title="AssignRoleRequest",
+ *      description="AssignRoleRequest",
  *      type="object",
  *      required={"employee_id"}
  * )
  */
-class UnassignTaskRequest extends FormRequest
+class AssignRoleRequest extends FormRequest
 {
     /**
      * @OA\Property(
-     *     title="Employee ID",
-     *     description="Employee ID",
+     *     title="Role ID",
+     *     description="Role ID",
      *     format="int64",
      *     example=1
      * )
      *
      * @var integer
      */
-    public int $employee_id;
+    public int $role_id;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -41,7 +42,7 @@ class UnassignTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => 'required|integer|exists:employees,id'
+            'role_id' => 'required|integer|exists:roles,id'
         ];
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AssignRoleRequest;
 use App\Http\Requests\StoreEmployeeRequest;
+use App\Http\Requests\UnassignRoleRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Resources\EmployeeResource;
 use App\Models\Employee;
@@ -192,6 +194,92 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee): Response
     {
         $employee->delete();
+
+        return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @OA\Post(
+     *     path="/employees/{employee}/assign-role",
+     *     operationId="assignRole",
+     *     tags={"Employees"},
+     *     summary="Assign role to employee",
+     *     @OA\Parameter(
+     *         name="employee",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *    @OA\RequestBody(
+     *           required=true,
+     *           @OA\JsonContent(ref="#/components/schemas/AssignRoleRequest")
+     *       ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(ref="#/components/schemas/Employee")
+     *     ),
+     *      @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content"
+     *      )
+     * )
+     */
+    public function assignRole(Employee $employee, AssignRoleRequest $request): EmployeeResource
+    {
+        $data = $request->validated();
+
+        if ($employee->hasRole($data['role_id'])) {
+            abort(422, 'У сотрудника уже есть такая роль');
+        }
+
+        $employee->roles()->attach($data);
+
+        return EmployeeResource::make($employee);
+    }
+
+    /**
+     * @OA\Delete(
+     *     path="/employees/{employee}/unassign-role",
+     *     operationId="unassignRole",
+     *     tags={"Employees"},
+     *     summary="Unassign role from employee",
+     *     @OA\Parameter(
+     *         name="employee",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *    @OA\RequestBody(
+     *           required=true,
+     *           @OA\JsonContent(ref="#/components/schemas/UnassignRoleRequest")
+     *       ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Successful operation",
+     *         @OA\JsonContent()
+     *     ),
+     *      @OA\Response(
+     *         response=403,
+     *         description="Forbidden"
+     *     ),
+     *      @OA\Response(
+     *         response=404,
+     *         description="Resource Not Found"
+     *     )
+     * )
+     */
+    public function unassignRole(Employee $employee, UnassignRoleRequest $request): Response
+    {
+        $employee->roles()->detach($request->validated());
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

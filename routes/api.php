@@ -15,6 +15,8 @@ Route::prefix('employees')->group(function () {
     Route::get('/{employee}', [EmployeeController::class, 'show'])->name('show');
     Route::put('/{employee}', [EmployeeController::class, 'update'])->name('update');
     Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy');
+    Route::post('/{employee}/assign-role', [EmployeeController::class, 'assignRole'])->name('assign');
+    Route::delete('/{employee}/unassign-role', [EmployeeController::class, 'unassignRole'])->name('unassign');
     //Route::get('/{employee}/tasks', [EmployeeController::class, 'tasks'])->name('tasks');
 });
 

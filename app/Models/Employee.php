@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 /**
  * @OA\Schema(
  *     title="Сотрудник",
@@ -68,8 +70,18 @@ class Employee extends Model
      */
     private string $status;
 
-    public function tasks()
+    public function tasks(): BelongsToMany
     {
         return $this->belongsToMany(Task::class, 'employee_tasks', 'employee_id', 'task_id')->withTimestamps();
+    }
+
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class, 'employee_roles', 'employee_id', 'role_id');
+    }
+
+    public function hasRole($roleId): bool
+    {
+        return $this->roles()->where('role_id', $roleId)->exists();
     }
 }

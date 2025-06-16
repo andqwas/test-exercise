@@ -2,20 +2,19 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Employee;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-
 /**
  * @OA\Schema(
- *     title="EmployeeResource",
- *     description="Employee resource",
+ *     title="RoleResource",
+ *     description="Role resource",
  *     @OA\Xml(
- *         name="EmployeeResource"
+ *         name="RoleResource"
  *     )
  * )
  */
-class EmployeeResource extends JsonResource
+class RoleResource extends JsonResource
 {
     /**
      * @OA\Property(
@@ -23,17 +22,16 @@ class EmployeeResource extends JsonResource
      *     description="Data wrapper"
      * )
      *
-     * @var Employee[]
+     * @var Role[]
      */
     private array $data;
+
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'email' => $this->email,
-            'status' => $this->status,
-            'roles' => RoleResource::collection($this->roles)
+            'title' => $this->title,
         ];
     }
 }
