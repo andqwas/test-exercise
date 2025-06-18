@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Filterable;
+use App\Observers\TaskObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  *     )
  * )
  */
+#[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
     /** @use HasFactory<\Database\Factories\TaskFactory> */
@@ -23,6 +26,9 @@ class Task extends Model
 
     protected $table = 'tasks';
     protected $fillable = ['title', 'description', 'status'];
+    const STATUS_PENDING = 'К выполнению';
+    const STATUS_IN_PROGRESS = 'В работе';
+    const STATUS_COMPLETED = 'Выполнена';
 
     /**
      * @OA\Property(

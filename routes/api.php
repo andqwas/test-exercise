@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,6 @@ Route::prefix('employees')->group(function () {
     Route::delete('/{employee}', [EmployeeController::class, 'destroy'])->name('destroy');
     Route::post('/{employee}/assign-role', [EmployeeController::class, 'assignRole'])->name('assign');
     Route::delete('/{employee}/unassign-role', [EmployeeController::class, 'unassignRole'])->name('unassign');
-    //Route::get('/{employee}/tasks', [EmployeeController::class, 'tasks'])->name('tasks');
 });
 
 Route::prefix('tasks')->group(function () {
@@ -29,5 +29,9 @@ Route::prefix('tasks')->group(function () {
     Route::delete('/{task}', [TaskController::class, 'destroy'])->name('destroy');
     Route::post('/{task}/assign', [TaskController::class, 'assign'])->name('assign');
     Route::delete('/{task}/unassign', [TaskController::class, 'unassign'])->name('unassign');
-    //Route::get('/{task}/employees', [TaskController::class, 'employees'])->name('employees');
+});
+
+Route::prefix('notifications')->group(function () {
+    Route::post('/', [NotificationController::class, 'index'])->name('index');
+    Route::put('/{notification}/read', [NotificationController::class, 'markAsRead'])->name('markAsRead');
 });

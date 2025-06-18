@@ -11,6 +11,7 @@ use App\Models\Employee;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class EmployeeController extends Controller
 {
@@ -26,6 +27,10 @@ class EmployeeController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/EmployeeResource")
      *       ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
      *     )
      */
     public function index(): AnonymousResourceCollection
@@ -52,7 +57,6 @@ class EmployeeController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/Employee")
      *     ),
      *     @OA\Response(response=400, description="Bad Request"),
-     *     @OA\Response(response=403, description="Forbidden")
      * )
      */
     public function store(StoreEmployeeRequest $request): JsonResponse
@@ -61,7 +65,7 @@ class EmployeeController extends Controller
 
         return (new EmployeeResource($employee))
             ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+            ->setStatusCode(ResponseAlias::HTTP_CREATED);
     }
 
     /**
@@ -141,7 +145,7 @@ class EmployeeController extends Controller
 
         return (new EmployeeResource($employee))
             ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+            ->setStatusCode(ResponseAlias::HTTP_ACCEPTED);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Filters\TaskFilter;
 use App\Http\Requests\AssignTaskRequest;
-use App\Http\Requests\FilterRequest;
+use App\Http\Requests\FilterTaskRequest;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UnassignTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
@@ -13,6 +13,7 @@ use App\Models\Task;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class TaskController extends Controller
 {
@@ -96,7 +97,7 @@ class TaskController extends Controller
      *     )
      * )
      */
-    public function index(FilterRequest $request): AnonymousResourceCollection
+    public function index(FilterTaskRequest $request): AnonymousResourceCollection
     {
         $data = $request->validated();
 
@@ -136,7 +137,7 @@ class TaskController extends Controller
 
         return (new TaskResource($task))
             ->response()
-            ->setStatusCode(Response::HTTP_CREATED);
+            ->setStatusCode(ResponseAlias::HTTP_CREATED);
     }
 
     /**

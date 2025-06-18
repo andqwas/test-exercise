@@ -23,6 +23,9 @@ class Employee extends Model
     protected $table = 'employees';
     protected $fillable = ['name', 'email', 'status'];
 
+    const STATUS_WORKING = 'Работает';
+    const STATUS_VACATION = 'В отпуске';
+
     /**
      * @OA\Property(
      *     title="ID",

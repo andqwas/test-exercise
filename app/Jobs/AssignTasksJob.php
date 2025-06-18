@@ -14,7 +14,7 @@ class AssignTasksJob implements ShouldQueue
     public function handle(): void
     {
         $unassignedTasks = Task::doesntHave('employees')->get();
-        $employees = Employee::all()->shuffle();
+        $employees = Employee::where('status', Employee::STATUS_WORKING)->inRandomOrder()->get();
 
         if ($unassignedTasks->isNotEmpty()) {
             foreach ($unassignedTasks as $i => $task) {
