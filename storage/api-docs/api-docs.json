@@ -30,8 +30,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "404": {
+                        "description": "Resource Not Found"
                     }
                 }
             },
@@ -65,9 +65,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     }
                 }
             }
@@ -104,9 +101,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     },
                     "404": {
                         "description": "Resource Not Found"
@@ -155,12 +149,6 @@
                     "400": {
                         "description": "Bad Request"
                     },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
                     "404": {
                         "description": "Resource Not Found"
                     }
@@ -192,9 +180,163 @@
                                 "schema": {}
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/employees/{employee}/assign-role": {
+            "post": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Assign role to employee",
+                "operationId": "assignRole",
+                "parameters": [
+                    {
+                        "name": "employee",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AssignRoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EmployeeResource"
+                                }
+                            }
+                        }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "404": {
+                        "description": "Resource Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
+                    }
+                }
+            }
+        },
+        "/employees/{employee}/unassign-role": {
+            "delete": {
+                "tags": [
+                    "Employees"
+                ],
+                "summary": "Unassign role from employee",
+                "operationId": "unassignRole",
+                "parameters": [
+                    {
+                        "name": "employee",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UnassignRoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "204": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "post": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Get list of notifications",
+                "description": "Returns list of notifications",
+                "operationId": "getNotificationsList",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetNotificationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NotificationResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/notifications/{id}/read": {
+            "put": {
+                "tags": [
+                    "Notifications"
+                ],
+                "summary": "Update existing notification",
+                "description": "Returns updated motification data",
+                "operationId": "markAsReadNotification",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Notification id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Notification"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
                     },
                     "404": {
                         "description": "Resource Not Found"
@@ -210,6 +352,86 @@
                 "summary": "Get list of tasks",
                 "description": "Returns list of tasks",
                 "operationId": "getTasksList",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Task title",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Task description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Task status",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "В работе",
+                                "К выполнению",
+                                "Выполнена"
+                            ],
+                            "example": "В работе"
+                        }
+                    },
+                    {
+                        "name": "created_at_from",
+                        "in": "query",
+                        "description": "Дата начала (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-06-20"
+                        }
+                    },
+                    {
+                        "name": "created_at_to",
+                        "in": "query",
+                        "description": "Дата окончания (YYYY-MM-DD)",
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2025-06-21"
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Sort tasks by",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "title",
+                                "description",
+                                "status",
+                                "created_at"
+                            ],
+                            "example": "title"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Order sort",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
+                            "example": "asc"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -221,8 +443,8 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden"
+                    "404": {
+                        "description": "Resource Not Found"
                     }
                 }
             },
@@ -256,9 +478,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     },
                     "429": {
                         "description": "Too Many Requests"
@@ -298,9 +517,6 @@
                     },
                     "400": {
                         "description": "Bad Request"
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     },
                     "404": {
                         "description": "Resource Not Found"
@@ -349,12 +565,6 @@
                     "400": {
                         "description": "Bad Request"
                     },
-                    "401": {
-                        "description": "Unauthenticated"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
                     "404": {
                         "description": "Resource Not Found"
                     }
@@ -386,12 +596,6 @@
                                 "schema": {}
                             }
                         }
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
                     }
                 }
             }
@@ -434,11 +638,11 @@
                             }
                         }
                     },
-                    "403": {
-                        "description": "Forbidden"
-                    },
                     "404": {
                         "description": "Resource Not Found"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content"
                     }
                 }
             }
@@ -478,12 +682,57 @@
                                 "schema": {}
                             }
                         }
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/tasks/grouped-by-status": {
+            "get": {
+                "tags": [
+                    "Tasks"
+                ],
+                "summary": "Get tasks grouped by status",
+                "description": "Returns all tasks grouped by status",
+                "operationId": "getTasksGroupedByStatus",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "Выполнена": [
+                                                    {
+                                                        "id": 1,
+                                                        "title": "Task 1",
+                                                        "description": "Task description",
+                                                        "status": "Выполнена"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "title": "Task 2",
+                                                        "description": "Task 2 description",
+                                                        "status": "Выполнена"
+                                                    }
+                                                ],
+                                                "В работе": [
+                                                    {
+                                                        "id": 3,
+                                                        "title": "Task 3",
+                                                        "description": "Task 3 description",
+                                                        "status": "В работе"
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -491,6 +740,23 @@
     },
     "components": {
         "schemas": {
+            "AssignRoleRequest": {
+                "title": "AssignRoleRequest",
+                "description": "AssignRoleRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "role_id": {
+                        "title": "Role ID",
+                        "description": "Role ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "AssignTaskRequest": {
                 "title": "AssignTaskRequest",
                 "description": "AssignTaskRequest",
@@ -501,6 +767,40 @@
                     "employee_id": {
                         "title": "Employee ID",
                         "description": "Employee ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "GetNotificationRequest": {
+                "title": "GetNotificationRequest",
+                "description": "GetNotificationRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "employee_id": {
+                        "title": "Employee ID",
+                        "description": "Employee ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "MarkReadNotificationRequest": {
+                "title": "MarkReadNotificationRequest",
+                "description": "MarkReadNotificationRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "notification_id": {
+                        "title": "Notification ID",
+                        "description": "Notification ID",
                         "type": "integer",
                         "format": "int64",
                         "example": 1
@@ -568,9 +868,26 @@
                 },
                 "type": "object"
             },
+            "UnassignRoleRequest": {
+                "title": "UnassignRoleRequest",
+                "description": "UnassignRoleRequest",
+                "required": [
+                    "employee_id"
+                ],
+                "properties": {
+                    "role_id": {
+                        "title": "Role ID",
+                        "description": "Role ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "UnassignTaskRequest": {
-                "title": "AssignTaskRequest",
-                "description": "AssignTaskRequest",
+                "title": "UnassignTaskRequest",
+                "description": "UnassignTaskRequest",
                 "required": [
                     "employee_id"
                 ],
@@ -663,6 +980,42 @@
                     "name": "EmployeeResource"
                 }
             },
+            "NotificationResource": {
+                "title": "NotificationResource",
+                "description": "Notification resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Notification"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "NotificationResource"
+                }
+            },
+            "RoleResource": {
+                "title": "RoleResource",
+                "description": "Role resource",
+                "properties": {
+                    "data": {
+                        "title": "Data",
+                        "description": "Data wrapper",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Role"
+                        }
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "RoleResource"
+                }
+            },
             "TaskResource": {
                 "title": "TaskResource",
                 "description": "Task resource",
@@ -710,11 +1063,81 @@
                         "description": "Статус сотрудника",
                         "type": "string",
                         "example": "Работает"
+                    },
+                    "roles": {
+                        "$ref": "#/components/schemas/Role"
+                    },
+                    "tasks": {
+                        "$ref": "#/components/schemas/Task"
                     }
                 },
                 "type": "object",
                 "xml": {
                     "name": "Employee"
+                }
+            },
+            "Notification": {
+                "title": "Уведомление",
+                "description": "Notification model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "employee_id": {
+                        "title": "Employee ID",
+                        "description": "Employee ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "message": {
+                        "title": "Сообщение уведомления",
+                        "description": "Сообщение уведомления",
+                        "type": "string",
+                        "example": "Задача #1, была переведена в статус 'В работе'"
+                    },
+                    "read": {
+                        "title": "Прочитано",
+                        "description": "Прочитано ли уведомление пользователем",
+                        "type": "boolean"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "Notification"
+                }
+            },
+            "Role": {
+                "title": "Роль",
+                "description": "RoleResource model",
+                "properties": {
+                    "id": {
+                        "title": "ID",
+                        "description": "ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "title": "Имя роли",
+                        "description": "Имя роли",
+                        "type": "string",
+                        "example": "manager"
+                    },
+                    "title": {
+                        "title": "Название роли",
+                        "description": "Название роли",
+                        "type": "string",
+                        "example": "Менеджер"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "RoleResource"
                 }
             },
             "Task": {
@@ -758,6 +1181,10 @@
         {
             "name": "Employees",
             "description": "Employees"
+        },
+        {
+            "name": "Notifications",
+            "description": "Notifications"
         },
         {
             "name": "Tasks",
