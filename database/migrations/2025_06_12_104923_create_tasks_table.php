@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('status');
+            $table->string('status')->default('К выполнению');
             $table->timestamps();
         });
     }

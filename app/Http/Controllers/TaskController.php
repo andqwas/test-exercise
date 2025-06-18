@@ -91,10 +91,6 @@ class TaskController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/TaskResource")
      *     ),
      *     @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *     @OA\Response(
      *         response=404,
      *         description="Resource Not Found"
      *     )
@@ -131,7 +127,6 @@ class TaskController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/Task")
      *     ),
      *     @OA\Response(response=400, description="Bad Request"),
-     *     @OA\Response(response=403, description="Forbidden"),
      *     @OA\Response(response=429, description="Too Many Requests")
      * )
      */
@@ -168,10 +163,6 @@ class TaskController extends Controller
      *      @OA\Response(
      *          response=400,
      *          description="Bad Request"
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
      *      ),
      *     @OA\Response(
      *           response=404,
@@ -214,14 +205,6 @@ class TaskController extends Controller
      *          description="Bad Request"
      *      ),
      *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
      *          response=404,
      *          description="Resource Not Found"
      *      )
@@ -256,15 +239,7 @@ class TaskController extends Controller
      *          response=204,
      *          description="Successful operation",
      *          @OA\JsonContent()
-     *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
+     *       )
      * )
      */
     public function destroy(Task $task): Response
@@ -296,10 +271,6 @@ class TaskController extends Controller
      *         @OA\JsonContent(ref="#/components/schemas/Task")
      *     ),
      *      @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *      @OA\Response(
      *         response=404,
      *         description="Resource Not Found"
      *     ),
@@ -311,7 +282,13 @@ class TaskController extends Controller
      */
     public function assign(Task $task, AssignTaskRequest $request): TaskResource
     {
-        $task->employees()->attach($request->validated());
+        $data = $request->validated();
+
+        if ($task->hasEmployee($data['employee_id'])) {
+            abort(422, 'У сотрудника уже есть эта задача');
+        }
+
+        $task->employees()->attach($data);
 
         return TaskResource::make($task);
     }
@@ -336,14 +313,6 @@ class TaskController extends Controller
      *         response=204,
      *         description="Successful operation",
      *         @OA\JsonContent()
-     *     ),
-     *      @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *      @OA\Response(
-     *         response=404,
-     *         description="Resource Not Found"
      *     )
      * )
      */

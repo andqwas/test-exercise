@@ -74,4 +74,9 @@ class Task extends Model
     {
         return $this->belongsToMany(Employee::class, 'employee_tasks', 'task_id', 'employee_id')->withTimestamps();
     }
+
+    public function hasEmployee(int $employeeId): bool
+    {
+        return $this->employees()->where('employee_id', $employeeId)->exists();
+    }
 }

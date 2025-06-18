@@ -70,6 +70,26 @@ class Employee extends Model
      */
     private string $status;
 
+    /**
+     * @OA\Property(
+     *      title="Роль",
+     *      description="Роль сотрудника",
+     * )
+     *
+     * @var Role
+     */
+    private Role $roles;
+
+    /**
+     * @OA\Property(
+     *      title="Задачи",
+     *      description="Задачи сотрудника",
+     * )
+     *
+     * @var Task
+     */
+    private Task $tasks;
+
     public function tasks(): BelongsToMany
     {
         return $this->belongsToMany(Task::class, 'employee_tasks', 'employee_id', 'task_id')->withTimestamps();

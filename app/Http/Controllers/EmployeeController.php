@@ -26,10 +26,6 @@ class EmployeeController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(ref="#/components/schemas/EmployeeResource")
      *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
      *     )
      */
     public function index(): AnonymousResourceCollection
@@ -93,10 +89,6 @@ class EmployeeController extends Controller
      *          response=400,
      *          description="Bad Request"
      *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
      *     @OA\Response(
      *           response=404,
      *           description="Resource Not Found"
@@ -138,14 +130,6 @@ class EmployeeController extends Controller
      *          description="Bad Request"
      *      ),
      *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *      ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
      *          response=404,
      *          description="Resource Not Found"
      *      )
@@ -180,15 +164,7 @@ class EmployeeController extends Controller
      *          response=204,
      *          description="Successful operation",
      *          @OA\JsonContent()
-     *       ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Resource Not Found"
-     *      )
+     *       )
      * )
      */
     public function destroy(Employee $employee): Response
@@ -217,11 +193,7 @@ class EmployeeController extends Controller
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
-     *         @OA\JsonContent(ref="#/components/schemas/Employee")
-     *     ),
-     *      @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
+     *         @OA\JsonContent(ref="#/components/schemas/EmployeeResource")
      *     ),
      *      @OA\Response(
      *         response=404,
@@ -266,14 +238,6 @@ class EmployeeController extends Controller
      *         response=204,
      *         description="Successful operation",
      *         @OA\JsonContent()
-     *     ),
-     *      @OA\Response(
-     *         response=403,
-     *         description="Forbidden"
-     *     ),
-     *      @OA\Response(
-     *         response=404,
-     *         description="Resource Not Found"
      *     )
      * )
      */
