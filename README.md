@@ -10,6 +10,10 @@
  ```bash
    make app-start
 ```
+**Запустить повторный seed**
+ ```bash
+   make seed
+```
 
 ## Инструкция по запуску (с Makefile)
 
